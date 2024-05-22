@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yujing.medicine.mapper.PermissionRoleMenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.yujing.medicine.pojo.PermissionRoleMenu">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="roleId" column="role_id" jdbcType="INTEGER"/>
+            <result property="menuId" column="menu_id" jdbcType="INTEGER"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+            <result property="deletedAt" column="deleted_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,role_id,menu_id,
+        is_deleted,created_at,updated_at,
+        deleted_at
+    </sql>
+    <insert id="insertPermissionRoleMenuByRoleIdAndMenuId">
+        INSERT INTO permission_role_menu(role_id,menu_id) VALUES
+        <foreach collection="menuId" separator="," item="ids">
+            (#{newId},#{ids})
+        </foreach>
+    </insert>
+    <delete id="deleteByRoleId">
+        DELETE FROM permission_role_menu WHERE role_id=#{id}
+    </delete>
+    <select id="selectParentByRoleId" resultType="java.lang.Long">
+        select  menu_id from permission_role_menu
+        where role_id = #{roleId}
+    </select>
+</mapper>

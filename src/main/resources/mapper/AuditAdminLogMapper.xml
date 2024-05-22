@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yujing.medicine.mapper.AuditAdminLogMapper">
+
+    <resultMap id="BaseResultMap" type="com.yujing.medicine.pojo.AuditAdminLog">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="ip" column="ip" jdbcType="VARCHAR"/>
+            <result property="uri" column="uri" jdbcType="VARCHAR"/>
+            <result property="methodType" column="method_type" jdbcType="VARCHAR"/>
+            <result property="methodName" column="method_name" jdbcType="VARCHAR"/>
+            <result property="methodDesc" column="method_desc" jdbcType="VARCHAR"/>
+            <result property="requestParam" column="request_param" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="VARCHAR"/>
+            <result property="result" column="result" jdbcType="VARCHAR"/>
+            <result property="userId" column="user_id" jdbcType="BIGINT"/>
+            <result property="executionTime" column="execution_time" jdbcType="BIGINT"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,ip,uri,
+        method_type,method_name,method_desc,
+        request_param,status,result,
+        user_id,execution_time,create_time
+    </sql>
+</mapper>

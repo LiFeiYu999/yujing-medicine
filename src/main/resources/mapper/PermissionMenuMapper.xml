@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yujing.medicine.mapper.PermissionMenuMapper">
+
+    <resultMap id="BaseResultMap" type="com.yujing.medicine.pojo.PermissionMenu">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="menuName" column="menu_name" jdbcType="VARCHAR"/>
+            <result property="parentId" column="parent_id" jdbcType="INTEGER"/>
+            <result property="level" column="level" jdbcType="TINYINT"/>
+            <result property="sort" column="sort" jdbcType="INTEGER"/>
+            <result property="url" column="url" jdbcType="VARCHAR"/>
+            <result property="icon" column="icon" jdbcType="VARCHAR"/>
+            <result property="status" column="status" jdbcType="TINYINT"/>
+            <result property="isDeleted" column="is_deleted" jdbcType="TINYINT"/>
+            <result property="createdAt" column="created_at" jdbcType="TIMESTAMP"/>
+            <result property="updatedAt" column="updated_at" jdbcType="TIMESTAMP"/>
+            <result property="deletedAt" column="deleted_at" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,menu_name,parent_id,
+        level,sort,url,
+        icon,status,is_deleted,
+        created_at,updated_at,deleted_at
+    </sql>
+    <select id="getAllPermissionListByUserName" resultType="com.yujing.medicine.pojo.PermissionMenu">
+        SELECT * from permission_menu t1
+                          LEFT JOIN permission_role_menu t2 on t1.id=t2.menu_id
+                          LEFT JOIN permission_role t3 on t2.role_id=t3.id
+                          LEFT JOIN permission_user_role t4 on t3.id=t4.role_id
+                          LEFT JOIN permission_user t5 on t4.user_id=t5.id
+        where t5.user_name=#{userName}
+    </select>
+    <select id="selectParentNameById" resultType="com.yujing.medicine.pojo.PermissionMenu">
+        SELECT c1.menu_name
+        FROM permission_menu c1
+                 JOIN permission_menu c2 ON c1.id = c2.parent_id
+        WHERE c2.id =#{id};
+    </select>
+    <select id="selectParentNameByParentId" resultType="com.yujing.medicine.pojo.PermissionMenu">
+        SELECT id,menu_name from permission_menu where parent_id = 0
+    </select>
+    <select id="selectPermissionByParentId" resultType="com.yujing.medicine.pojo.PermissionMenu">
+        select * from permission_menu 
+        <where>
+            <choose>
+                <when test="parentId == null">
+                    parentId is null
+                </when>
+                <otherwise>
+                    parentId = #{parentId}
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="selectPermissionMenuByRoleId" resultType="com.yujing.medicine.pojo.PermissionMenu">
+    /*1.根据角色id查询角色权限表中的权限信息 2.根据获取到的角色权限表的id查询出权限表中的信息*/
+    SELECT * FROM permission_menu
+    WHERE id IN(SELECT menu_id FROM permission_role_menu WHERE role_id=#{roleId})
+    </select>
+
+</mapper>

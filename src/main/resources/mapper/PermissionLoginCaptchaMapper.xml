@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yujing.medicine.mapper.PermissionLoginCaptchaMapper">
+
+    <resultMap id="BaseResultMap" type="com.yujing.medicine.pojo.PermissionLoginCaptcha">
+            <id property="id" column="id" jdbcType="INTEGER"/>
+            <result property="captchaCode" column="captcha_code" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,captcha_code
+    </sql>
+</mapper>
